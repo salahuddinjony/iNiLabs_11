@@ -1,0 +1,28 @@
+/// API Constants for GitHub API
+class ApiConstants {
+  // Base URL
+  static const String baseUrl = 'https://api.github.com';
+  
+  // Endpoints
+  static const String users = '/users';
+  static const String repos = '/repos';
+  
+  // Get user by username
+  static String getUserUrl(String username) => '$baseUrl/users/$username';
+  
+  // Get user repositories
+  static String getUserReposUrl(String username) => '$baseUrl/users/$username/repos';
+  
+  // Get repository details
+  static String getRepoDetailsUrl(String owner, String repoName) => 
+      '$baseUrl/repos/$owner/$repoName';
+  
+  // Headers
+  static Map<String, String> get headers => {
+    'Accept': 'application/vnd.github.v3+json',
+  };
+  
+  // Timeout durations
+  static const Duration connectionTimeout = Duration(seconds: 30);
+  static const Duration receiveTimeout = Duration(seconds: 30);
+}
