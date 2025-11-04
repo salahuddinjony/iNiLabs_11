@@ -10,14 +10,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Login Controller
 class LoginController extends GetxController {
   final GithubRepository _repository = GithubRepository(ApiService());
-  
+
+  final usernameController = TextEditingController();
+
   // Observable variables
   final _isLoading = false.obs;
   final _errorMessage = ''.obs;
-  
+
   bool get isLoading => _isLoading.value;
   String get errorMessage => _errorMessage.value;
-  
+
   /// Validate and fetch user
   Future<bool> login(String username, BuildContext context) async {
     if (username.trim().isEmpty) {
@@ -25,33 +27,34 @@ class LoginController extends GetxController {
       EasyLoading.showError('Please enter a username');
       return false;
     }
-    
+
     _isLoading.value = true;
     _errorMessage.value = '';
     // EasyLoading.show(status: 'Loading...');
-    
+
     try {
       await _repository.fetchUser(username.trim());
       _isLoading.value = false;
       // Navigate to home with username
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', username.trim());
-      
+
       if (context.mounted) {
         context.goNamed(RoutePath.home, extra: username.trim());
+        usernameController.clear();
       }
       return true;
     } catch (e) {
       _isLoading.value = false;
       _errorMessage.value = e.toString();
-      
+
       EasyLoading.showError(e.toString());
       return false;
-    }finally {
+    } finally {
       EasyLoading.dismiss();
     }
   }
-  
+
   /// Clear error message
   void clearError() {
     _errorMessage.value = '';

@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      // App Bar
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: HomepageAppbar(
@@ -38,6 +39,7 @@ class HomeScreen extends StatelessWidget {
           controller: controller,
         ),
       ),
+
       body: RefreshIndicator(
         onRefresh: () => controller.refresh(),
         child: CustomScrollView(

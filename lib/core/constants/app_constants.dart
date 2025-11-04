@@ -1,7 +1,7 @@
 /// App-wide constants
 class AppConstants {
   // App Info
-  static const String appName = 'GitHub Repo Viewer';
+  static const String appName = 'Repo Finder';
   static const String appVersion = '1.0.0';
   
   // Storage Keys

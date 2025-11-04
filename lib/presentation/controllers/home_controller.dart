@@ -1,12 +1,12 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/utils/api_service.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/data/models/github_user.dart';
 import 'package:inilab/data/repositories/github_repository.dart';
 
-enum ViewType { list, grid }
-enum SortType { name, date, stars, updated }
+
 
 /// Home Controller
 class HomeController extends GetxController {
@@ -19,7 +19,7 @@ class HomeController extends GetxController {
   final _user = Rxn<GithubUser>();
   final _repositories = <repo_model.GithubRepository>[].obs;
   final _filteredRepositories = <repo_model.GithubRepository>[].obs;
-  final _viewType = ViewType.list.obs;
+  final _viewType =ViewType.list.obs;
   final _sortType = SortType.updated.obs;
   final _searchQuery = ''.obs;
   

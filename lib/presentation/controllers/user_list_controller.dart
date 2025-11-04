@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:inilab/core/enums/user_list_type.dart';
+import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/utils/api_service.dart';
 import 'package:inilab/data/models/github_user.dart';
 import 'package:inilab/data/repositories/github_repository.dart';
