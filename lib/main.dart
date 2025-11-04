@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:inilab/app.dart';
+import 'package:inilab/helper/initialize_app.dart';
 
 Future<void> main() async {
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
+  await InitializeApp.initialize();
   runApp(const MyApp());
 }
+
 

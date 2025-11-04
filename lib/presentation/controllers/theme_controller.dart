@@ -8,7 +8,10 @@ import 'package:inilab/core/theme/app_theme.dart';
 /// Theme Controller for managing app theme
 class ThemeController extends GetxController {
   // Observable theme mode
-  final _themeMode = ThemeMode.light.obs;
+  final Rx<ThemeMode> _themeMode;
+
+  ThemeController({ThemeMode? initialTheme}) 
+      : _themeMode = (initialTheme ?? ThemeMode.light).obs;
 
   ThemeMode get themeMode => _themeMode.value;
   bool get isDarkMode => _themeMode.value == ThemeMode.dark;
@@ -16,19 +19,7 @@ class ThemeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadTheme();
-  }
-
-  /// Load theme from storage
-  Future<void> loadTheme() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final isDark = prefs.getBool(AppConstants.themeKey) ?? false;
-      _themeMode.value = isDark ? ThemeMode.dark : ThemeMode.light;
-    } catch (e) {
-      // Default to light theme
-      _themeMode.value = ThemeMode.light;
-    }
+    // Theme is already loaded in main.dart, no need to load again
   }
 
   /// Toggle theme
