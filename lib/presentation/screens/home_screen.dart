@@ -1,34 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
+import 'package:inilab/core/enums/user_list_type.dart';
+import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/presentation/controllers/home_controller.dart';
 import 'package:inilab/presentation/controllers/theme_controller.dart';
-import 'package:inilab/presentation/screens/login_screen.dart';
+import 'package:inilab/presentation/widgets/contribution_chart.dart';
 import 'package:inilab/presentation/widgets/error_widget.dart' as custom_error;
 import 'package:inilab/presentation/widgets/loading_widget.dart';
 import 'package:inilab/presentation/widgets/repository_card.dart';
 import 'package:inilab/presentation/widgets/repository_grid_item.dart';
 import 'package:inilab/presentation/widgets/user_avatar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Home Screen - Displays user info and repositories
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final String? username;
+  final bool isFromNavigation;
+  
+  const HomeScreen({
+    super.key, 
+    this.username,
+    this.isFromNavigation = false,
+  });
   
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    // Use username-specific tag to ensure each user has their own controller instance
+    final controller = Get.put(
+      HomeController(),
+      tag: username ?? 'main',
+    );
     final themeController = Get.find<ThemeController>();
+    
+    // Initialize controller with username if provided
+    if (username != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.initialize(username!);
+      });
+    }
     
     return Scaffold(
       appBar: AppBar(
         title: const Text('Repositories'),
-        leading: IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            Get.offAllNamed('/');
-          },
-          tooltip: 'Logout',
-        ),
+        // Show back button only when viewing another user's profile
+        leading: isFromNavigation
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  // Clean up the controller when going back
+                  Get.delete<HomeController>(tag: username ?? 'main');
+                  context.pop();
+                },
+                tooltip: 'Back',
+              )
+            : IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () async {
+                  // Clean up all controllers before logout
+                  Get.delete<HomeController>(tag: username ?? 'main');
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove('username');
+                  if (context.mounted) {
+                    context.goNamed(RoutePath.login);
+                  }
+                },
+                tooltip: 'Logout',
+              ),
         actions: [
           // View toggle
           Obx(() => IconButton(
@@ -121,20 +160,39 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _buildStatItem(
+                            buildStatItem(
                               context,
                               'Repos',
                               user.publicRepos.toString(),
+                              onTap: null,
                             ),
-                            _buildStatItem(
+                            buildStatItem(
                               context,
                               'Followers',
                               user.followers.toString(),
+                              onTap: user.followers > 0 ? () {
+                                context.pushNamed(
+                                  RoutePath.userList,
+                                  extra: {
+                                    'username': user.login,
+                                    'type': UserListType.followers,
+                                  },
+                                );
+                              } : null,
                             ),
-                            _buildStatItem(
+                            buildStatItem(
                               context,
                               'Following',
                               user.following.toString(),
+                              onTap: user.following > 0 ? () {
+                                context.pushNamed(
+                                  RoutePath.userList,
+                                  extra: {
+                                    'username': user.login,
+                                    'type': UserListType.following,
+                                  },
+                                );
+                              } : null,
                             ),
                           ],
                         ),
@@ -142,6 +200,16 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 );
+              }),
+            ),
+            
+            // Contribution Chart
+            SliverToBoxAdapter(
+              child: Obx(() {
+                final user = controller.user;
+                if (user == null) return const SizedBox.shrink();
+                
+                return ContributionChart(username: user.login);
               }),
             ),
             
@@ -188,10 +256,7 @@ class HomeScreen extends StatelessWidget {
                       final repo = controller.repositories[index];
                       return RepositoryCard(
                         repository: repo,
-                        onTap: () => Get.toNamed(
-                          '/repository-details',
-                          arguments: repo,
-                        ),
+                        onTap: () => context.pushNamed(RoutePath.repositoryDetails, extra: repo),
                       );
                     },
                     childCount: controller.repositories.length,
@@ -212,10 +277,7 @@ class HomeScreen extends StatelessWidget {
                         final repo = controller.repositories[index];
                         return RepositoryGridItem(
                           repository: repo,
-                          onTap: () => Get.toNamed(
-                            '/repository-details',
-                            arguments: repo,
-                          ),
+                          onTap: () => context.pushNamed(RoutePath.repositoryDetails, extra: repo),
                         );
                       },
                       childCount: controller.repositories.length,
@@ -230,8 +292,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
   
-  Widget _buildStatItem(BuildContext context, String label, String value) {
-    return Column(
+  Widget buildStatItem(BuildContext context, String label, String value, {VoidCallback? onTap}) {
+    final widget = Column(
       children: [
         Text(
           value,
@@ -245,5 +307,18 @@ class HomeScreen extends StatelessWidget {
         ),
       ],
     );
+    
+    if (onTap != null) {
+      return InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: widget,
+        ),
+      );
+    }
+    
+    return widget;
   }
 }

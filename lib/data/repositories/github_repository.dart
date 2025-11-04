@@ -54,4 +54,40 @@ class GithubRepository {
       rethrow;
     }
   }
+  
+  /// Fetch user followers
+  Future<List<GithubUser>> fetchFollowers(String username, int page) async {
+    try {
+      final response = await _apiService.get(
+        '/users/$username/followers',
+        queryParameters: {
+          'per_page': 100,
+          'page': page,
+        },
+      );
+      
+      final List<dynamic> data = response.data;
+      return data.map((json) => GithubUser.fromJson(json)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+  
+  /// Fetch user following
+  Future<List<GithubUser>> fetchFollowing(String username, int page) async {
+    try {
+      final response = await _apiService.get(
+        '/users/$username/following',
+        queryParameters: {
+          'per_page': 100,
+          'page': page,
+        },
+      );
+      
+      final List<dynamic> data = response.data;
+      return data.map((json) => GithubUser.fromJson(json)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

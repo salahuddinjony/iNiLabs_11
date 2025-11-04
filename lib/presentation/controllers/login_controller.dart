@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/core/utils/api_service.dart';
 import 'package:inilab/data/repositories/github_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Login Controller
 class LoginController extends GetxController {
@@ -15,7 +19,7 @@ class LoginController extends GetxController {
   String get errorMessage => _errorMessage.value;
   
   /// Validate and fetch user
-  Future<bool> login(String username) async {
+  Future<bool> login(String username, BuildContext context) async {
     if (username.trim().isEmpty) {
       _errorMessage.value = 'Please enter a username';
       EasyLoading.showError('Please enter a username');
@@ -30,7 +34,12 @@ class LoginController extends GetxController {
       await _repository.fetchUser(username.trim());
       _isLoading.value = false;
       // Navigate to home with username
-      Get.offNamed('/home', arguments: username.trim());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username.trim());
+      
+      if (context.mounted) {
+        context.goNamed(RoutePath.home, extra: username.trim());
+      }
       return true;
     } catch (e) {
       _isLoading.value = false;

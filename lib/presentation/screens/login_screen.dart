@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                     prefixIcon: Icon(Icons.person),
                   ),
                   textInputAction: TextInputAction.go,
-                  onSubmitted: (value) => controller.login(value),
+                  onSubmitted: (value) => controller.login(value, context),
                 ),
                 
                 const SizedBox(height: AppConstants.paddingMedium),
@@ -119,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: controller.isLoading
                         ? null
-                        : () => controller.login(usernameController.text),
+                        : () => controller.login(usernameController.text, context),
                     child: controller.isLoading
                         ? const SizedBox(
                             height: 20,

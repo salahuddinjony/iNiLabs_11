@@ -45,6 +45,14 @@ class HomeController extends GetxController {
     }
   }
   
+  /// Initialize with username (for go_router)
+  void initialize(String username) {
+    // Always reload data to ensure fresh data when navigating
+    _username = username;
+    fetchUserData(username);
+    fetchRepositories(username);
+  }
+  
   /// Fetch user data
   Future<void> fetchUserData(String username) async {
     _isLoading.value = true;

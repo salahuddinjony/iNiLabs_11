@@ -1,0 +1,11 @@
+class RoutePath {
+
+  static const basePath = '/';
+
+  static const splash = 'SplashScreen';
+  static const login = 'LoginScreen';
+  static const home = 'HomeScreen';
+  static const repositoryDetails = 'RepositoryDetailsScreen';
+  static const userList = 'UserListScreen';
+
+}

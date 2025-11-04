@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 /// API Constants for GitHub API
 class ApiConstants {
   // Base URL
@@ -17,10 +19,14 @@ class ApiConstants {
   static String getRepoDetailsUrl(String owner, String repoName) => 
       '$baseUrl/repos/$owner/$repoName';
   
-  // Headers
-  static Map<String, String> get headers => {
-    'Accept': 'application/vnd.github.v3+json',
-  };
+  // Headers with authentication
+  static Map<String, String> get headers {
+    final token = dotenv.env['GITHUB_TOKEN'] ?? '';
+    return {
+      'Accept': 'application/vnd.github.v3+json',
+      if (token.isNotEmpty) 'Authorization': 'Bearer $token',
+    };
+  }
   
   // Timeout durations
   static const Duration connectionTimeout = Duration(seconds: 30);

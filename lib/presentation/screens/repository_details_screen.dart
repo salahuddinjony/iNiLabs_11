@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
 import 'package:inilab/core/utils/date_utils.dart' as app_date_utils;
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
@@ -9,15 +10,24 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Repository Details Screen
 class RepositoryDetailsScreen extends StatelessWidget {
-  const RepositoryDetailsScreen({super.key});
+  final repo_model.GithubRepository repository;
+  
+  const RepositoryDetailsScreen({
+    super.key,
+    required this.repository,
+  });
   
   @override
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
-    final repo_model.GithubRepository repository = Get.arguments;
     
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+          tooltip: 'Back',
+        ),
         title: Text(repository.name),
         actions: [
           Obx(() => IconButton(

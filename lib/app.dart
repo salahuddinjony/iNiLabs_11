@@ -1,61 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:inilab/core/bindings/dependency_injection.dart';
+import 'package:inilab/core/routes/app_router.dart';
 import 'package:inilab/core/theme/app_theme.dart';
 import 'package:inilab/presentation/controllers/theme_controller.dart';
-import 'package:inilab/presentation/screens/home_screen.dart';
-import 'package:inilab/presentation/screens/login_screen.dart';
-import 'package:inilab/presentation/screens/repository_details_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Initialize theme controller
-    final themeController = Get.put(ThemeController());
+    debugPrint("Height=========${MediaQuery.of(context).size.height}");
+    debugPrint("Weight=========${MediaQuery.of(context).size.width}");
     
-    // Configure EasyLoading
-    _configureEasyLoading();
+    // Initialize dependencies first
+    DependencyInjection().dependencies();
+
     
-    return Obx(() => GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'GitHub Repo Viewer',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeController.themeMode,
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const LoginScreen(),
-        ),
-        GetPage(
-          name: '/home',
-          page: () => const HomeScreen(),
-        ),
-        GetPage(
-          name: '/repository-details',
-          page: () => const RepositoryDetailsScreen(),
-        ),
-      ],
-      builder: EasyLoading.init(),
-    ));
+    return ScreenUtilInit(
+      designSize: const Size(411, 890),
+      minTextAdapt: true,
+      useInheritedMediaQuery: true,
+      builder: (context, child) {
+        // Get theme controller
+        final themeController = Get.find<ThemeController>();
+        
+        return Obx(() => GetMaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Repo Finder',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeController.themeMode,
+          routeInformationParser: AppRouter.route.routeInformationParser,
+          routerDelegate: AppRouter.route.routerDelegate,
+          routeInformationProvider: AppRouter.route.routeInformationProvider,
+          builder: EasyLoading.init(),
+        ));
+      },
+    );
   }
   
-  void _configureEasyLoading() {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.dark
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..progressColor = Colors.white
-      ..backgroundColor = Colors.black87
-      ..indicatorColor = Colors.white
-      ..textColor = Colors.white
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = false
-      ..dismissOnTap = false;
-  }
+
 }

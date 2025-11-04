@@ -43,7 +43,7 @@ class DateUtils {
     }
   }
   
-  /// Format number with K, M suffix (e.g., 1500 -> 1.5K)
+  /// Format number with K, M suffix 
   static String formatNumber(int? number) {
     if (number == null) return '0';
     

@@ -3,10 +3,10 @@ import 'package:inilab/core/constants/api_constants.dart';
 
 /// API Service for handling all HTTP requests
 class ApiService {
-  late final Dio _dio;
+  late final Dio dio;
   
   ApiService() {
-    _dio = Dio(
+    dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: ApiConstants.connectionTimeout,
@@ -16,7 +16,7 @@ class ApiService {
     );
     
     // Add interceptors for logging
-    _dio.interceptors.add(
+    dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
         responseBody: true,
@@ -28,7 +28,7 @@ class ApiService {
   /// GET request
   Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
-      final response = await _dio.get(
+      final response = await dio.get(
         path,
         queryParameters: queryParameters,
       );
