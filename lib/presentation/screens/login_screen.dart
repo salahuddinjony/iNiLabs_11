@@ -2,32 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilab/core/constants/app_constants.dart';
 import 'package:inilab/presentation/controllers/login_controller.dart';
-import 'package:inilab/presentation/controllers/theme_controller.dart';
 
-/// Login Screen - First page where user enters username
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
   
+  final controller = Get.find<LoginController>();
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
-    final themeController = Get.find<ThemeController>();
-    final usernameController = TextEditingController();
-    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppConstants.appName),
-        actions: [
-          Obx(() => IconButton(
-            icon: Icon(
-              themeController.isDarkMode 
-                  ? Icons.light_mode 
-                  : Icons.dark_mode,
-            ),
-            onPressed: () => themeController.toggleTheme(),
-          )),
-        ],
-      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -41,9 +24,9 @@ class LoginScreen extends StatelessWidget {
                   size: 100,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                
+
                 const SizedBox(height: AppConstants.paddingLarge),
-                
+
                 // Title
                 Text(
                   AppConstants.appName,
@@ -52,21 +35,21 @@ class LoginScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const SizedBox(height: AppConstants.paddingSmall),
-                
+
                 // Subtitle
                 Text(
                   'Enter a GitHub username to view repositories',
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
-                
-                const SizedBox(height: AppConstants.paddingLarge * 2),
-                
+
+                const SizedBox(height: AppConstants.paddingLarge * 3),
+
                 // Username TextField
                 TextField(
-                  controller: usernameController,
+                  controller: controller.usernameController,
                   decoration: const InputDecoration(
                     labelText: 'GitHub Username',
                     hintText: 'e.g., torvalds',
@@ -75,9 +58,9 @@ class LoginScreen extends StatelessWidget {
                   textInputAction: TextInputAction.go,
                   onSubmitted: (value) => controller.login(value, context),
                 ),
-                
+
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 // Error message
                 Obx(() {
                   if (controller.errorMessage.isNotEmpty) {
@@ -93,14 +76,18 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.error_outline,
-                            color: Theme.of(context).colorScheme.onErrorContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onErrorContainer,
                           ),
                           const SizedBox(width: AppConstants.paddingSmall),
                           Expanded(
                             child: Text(
                               controller.errorMessage,
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onErrorContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onErrorContainer,
                               ),
                             ),
                           ),
@@ -110,25 +97,30 @@ class LoginScreen extends StatelessWidget {
                   }
                   return const SizedBox.shrink();
                 }),
-                
+
                 const SizedBox(height: AppConstants.paddingLarge),
-                
+
                 // Submit Button
-                Obx(() => SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: controller.isLoading
-                        ? null
-                        : () => controller.login(usernameController.text, context),
-                    child: controller.isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('View Repositories'),
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: controller.isLoading
+                          ? null
+                          : () => controller.login(
+                              controller.usernameController.text,
+                              context,
+                            ),
+                      child: controller.isLoading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('View Repositories'),
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
           ),

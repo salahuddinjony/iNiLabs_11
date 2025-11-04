@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
-import 'package:inilab/core/enums/user_list_type.dart';
+import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/presentation/controllers/user_list_controller.dart';
 import 'package:inilab/presentation/widgets/loading_widget.dart';

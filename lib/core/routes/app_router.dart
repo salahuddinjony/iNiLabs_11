@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:inilab/core/enums/user_list_type.dart';
+import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/helper/extention.dart';
@@ -21,7 +21,7 @@ class AppRouter {
       GoRoute(
         path: RoutePath.login.addBasePath,
         name: RoutePath.login,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => LoginScreen(),
       ),
       GoRoute(
         path: RoutePath.home.addBasePath,
