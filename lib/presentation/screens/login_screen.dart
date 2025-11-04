@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                 
                 // Title
                 Text(
-                  'GitHub Repo Viewer',
+                  AppConstants.appName,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
