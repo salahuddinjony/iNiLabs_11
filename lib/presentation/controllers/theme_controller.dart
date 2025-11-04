@@ -10,8 +10,8 @@ class ThemeController extends GetxController {
   // Observable theme mode
   final Rx<ThemeMode> _themeMode;
 
-  ThemeController({ThemeMode? initialTheme}) 
-      : _themeMode = (initialTheme ?? ThemeMode.light).obs;
+  ThemeController({ThemeMode? initialTheme})
+    : _themeMode = (initialTheme ?? ThemeMode.light).obs;
 
   ThemeMode get themeMode => _themeMode.value;
   bool get isDarkMode => _themeMode.value == ThemeMode.dark;
@@ -19,7 +19,6 @@ class ThemeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Theme is already loaded in main.dart, no need to load again
   }
 
   /// Toggle theme
