@@ -56,6 +56,9 @@ dependencies:
   # Loading Indicator
   flutter_easyloading: ^3.0.5
   
+  # Shimmer Effect
+  shimmer: ^3.0.0
+  
   # Utilities
   intl: ^0.19.0
   url_launcher: ^6.2.4

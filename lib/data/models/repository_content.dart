@@ -4,7 +4,7 @@ class RepositoryContent {
   final String path;
   final String type; // 'file' or 'dir'
   final int? size;
-  final String? sha;
+  final String? sha; // SHA hash of the content
   final String? downloadUrl;
   final String? htmlUrl;
 

@@ -3,15 +3,15 @@ import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/helper/extention.dart';
-import 'package:inilab/presentation/controllers/repository_browser_controller.dart';
-import 'package:inilab/presentation/screens/file_viewer_screen.dart';
-import 'package:inilab/presentation/screens/home_screen.dart';
-import 'package:inilab/presentation/screens/login_screen.dart';
-import 'package:inilab/presentation/screens/main_screen.dart';
-import 'package:inilab/presentation/screens/repository_browser_screen.dart';
-import 'package:inilab/presentation/screens/repository_details_screen.dart';
-import 'package:inilab/presentation/screens/splash_screen.dart';
-import 'package:inilab/presentation/screens/user_list_screen.dart';
+import 'package:inilab/presentation/screens/home_screen/repositiory_browse/controller/repository_browser_controller.dart';
+import 'package:inilab/presentation/screens/home_screen/file_viewer_screen/screen/file_viewer_screen.dart';
+import 'package:inilab/presentation/screens/home_screen/home/screen/home_screen.dart';
+import 'package:inilab/presentation/screens/login_screen/screen/login_screen.dart';
+import 'package:inilab/presentation/screens/main_screen/screen/main_screen.dart';
+import 'package:inilab/presentation/screens/home_screen/repositiory_browse/screen/repository_browser_screen.dart';
+import 'package:inilab/presentation/screens/home_screen/repositiory_details/screen/repository_details_screen.dart';
+import 'package:inilab/presentation/screens/splash_screen/screen/splash_screen.dart';
+import 'package:inilab/presentation/screens/home_screen/following_followers_screen/screen/user_list_screen.dart';
 
 class AppRouter {
   static final GoRouter route = GoRouter(
@@ -30,7 +30,7 @@ class AppRouter {
       GoRoute(
         path: RoutePath.main.addBasePath,
         name:  RoutePath.main,
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) =>  MainScreen(),
       ),
       GoRoute(
         path: RoutePath.home.addBasePath,

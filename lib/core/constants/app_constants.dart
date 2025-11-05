@@ -1,7 +1,11 @@
 /// App-wide constants
 class AppConstants {
+
+
+    
   // url
   static const String supportUrl = 'https://api.github.com';
+  static const String githubUrl ='https://github.com';
   static const String ratingUrl = 'https://github.com';
   static const String developerPortfolioUrl =
       'https://salahuddinjony.github.io/';
@@ -18,7 +22,7 @@ class AppConstants {
   static const String appVersion = '1.0.0';
 
   // Storage Keys
-  static const String themeKey = 'app_theme';
+  static const String themeKey = 'theme_mode';
   static const String lastUsernameKey = 'last_username';
 
   // Padding & Spacing
