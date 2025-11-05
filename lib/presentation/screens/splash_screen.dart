@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
       final userName = prefs.getString('username');
       if (userName != null && userName.isNotEmpty) {
         if (context.mounted) {
-          context.goNamed(RoutePath.home, extra: userName);
+          context.goNamed(RoutePath.main);
         }
         return;
       }

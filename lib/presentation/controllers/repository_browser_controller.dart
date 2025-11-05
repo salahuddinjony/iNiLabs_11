@@ -99,11 +99,40 @@ class RepositoryBrowserController extends GetxController {
   }
 
   /// Get repository download URL (ZIP)
-  String getDownloadUrl() {
+  String getDownloadUrl({String? branch}) {
     final owner = repository.owner.login;
     final repoName = repository.name;
-    final branch = repository.defaultBranch ?? 'main';
-    return 'https://github.com/$owner/$repoName/archive/refs/heads/$branch.zip';
+    final selectedBranch = branch ?? repository.defaultBranch ?? 'main';
+    return 'https://github.com/$owner/$repoName/archive/refs/heads/$selectedBranch.zip';
+  }
+
+  /// Fetch available branches
+  Future<List<String>> fetchBranches() async {
+    try {
+      final dio = Dio();
+      final owner = repository.owner.login;
+      final repoName = repository.name;
+
+      final response = await dio.get(
+        'https://api.github.com/repos/$owner/$repoName/branches',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_githubToken',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        ),
+      );
+
+      if (response.data is List) {
+        return (response.data as List)
+            .map((branch) => branch['name'] as String)
+            .toList();
+      }
+      return [repository.defaultBranch ?? 'main'];
+    } catch (e) {
+      debugPrint('Error fetching branches: $e');
+      return [repository.defaultBranch ?? 'main'];
+    }
   }
 
   /// Get repository clone URL

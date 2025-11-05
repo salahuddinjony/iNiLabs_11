@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/core/utils/date_utils.dart' as app_date_utils;
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
-import 'package:inilab/presentation/controllers/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Repository Details Screen
@@ -20,8 +18,6 @@ class RepositoryDetailsScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final themeController = Get.find<ThemeController>();
-    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -30,16 +26,6 @@ class RepositoryDetailsScreen extends StatelessWidget {
           tooltip: 'Back',
         ),
         title: Text(repository.name),
-        actions: [
-          Obx(() => IconButton(
-            icon: Icon(
-              themeController.isDarkMode 
-                  ? Icons.light_mode 
-                  : Icons.dark_mode,
-            ),
-            onPressed: () => themeController.toggleTheme(),
-          )),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppConstants.paddingMedium),

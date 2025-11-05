@@ -1,5 +1,14 @@
 /// App-wide constants
 class AppConstants {
+
+
+  // url 
+  static const String supportUrl = 'https://api.github.com';
+  static const String ratingUrl = 'https://github.com';
+  static const String developerPortfolioUrl = 'https://salahuddinjony.github.io/';
+// about app
+static const String aboutText = 'Repo Finder - A beautiful Flutter app to explore GitHub profiles, repositories, and contributions.';
+static const String copyrightText = '© 2023 Salah. All rights reserved.';
   // App Info
   static const String appName = 'Repo Finder';
   static const String appVersion = '1.0.0';
