@@ -1,17 +1,17 @@
-import 'package:inilab/core/utils/api_service.dart';
+import 'package:inilab/core/utils/api_services/api_service.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/data/models/github_user.dart';
 
 /// GitHub Repository for API calls
 class GithubRepository {
-  final ApiService _apiService;
+  final ApiService apiService;
   
-  GithubRepository(this._apiService);
+  GithubRepository(this.apiService);
   
   /// Fetch user by username
   Future<GithubUser> fetchUser(String username) async {
     try {
-      final response = await _apiService.get('/users/$username');
+      final response = await apiService.get('/users/$username');
       return GithubUser.fromJson(response.data);
     } catch (e) {
       rethrow;
@@ -30,7 +30,7 @@ class GithubRepository {
       if (sort != null) queryParams['sort'] = sort;
       if (direction != null) queryParams['direction'] = direction;
       
-      final response = await _apiService.get(
+      final response = await apiService.get(
         '/users/$username/repos',
         queryParameters: queryParams,
       );
@@ -48,7 +48,7 @@ class GithubRepository {
     String repoName,
   ) async {
     try {
-      final response = await _apiService.get('/repos/$owner/$repoName');
+      final response = await apiService.get('/repos/$owner/$repoName');
       return repo_model.GithubRepository.fromJson(response.data);
     } catch (e) {
       rethrow;
@@ -58,7 +58,7 @@ class GithubRepository {
   /// Fetch user followers
   Future<List<GithubUser>> fetchFollowers(String username, int page) async {
     try {
-      final response = await _apiService.get(
+      final response = await apiService.get(
         '/users/$username/followers',
         queryParameters: {
           'per_page': 100,
@@ -76,7 +76,7 @@ class GithubRepository {
   /// Fetch user following
   Future<List<GithubUser>> fetchFollowing(String username, int page) async {
     try {
-      final response = await _apiService.get(
+      final response = await apiService.get(
         '/users/$username/following',
         queryParameters: {
           'per_page': 100,
@@ -94,7 +94,7 @@ class GithubRepository {
   /// Search users by query
   Future<List<GithubUser>> searchUsers(String query) async {
     try {
-      final response = await _apiService.get(
+      final response = await apiService.get(
         '/search/users',
         queryParameters: {
           'q': query,

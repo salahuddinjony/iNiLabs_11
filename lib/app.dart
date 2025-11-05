@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:inilab/core/bindings/dependency_injection.dart';
 import 'package:inilab/core/routes/app_router.dart';
 import 'package:inilab/core/theme/app_theme.dart';
-import 'package:inilab/presentation/controllers/theme_controller.dart';
+import 'package:inilab/core/common_controllers/theme_controller.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         // Get theme controller
         final themeController = Get.find<ThemeController>();
+    
         
         return Obx(() => GetMaterialApp.router(
           debugShowCheckedModeBanner: false,
@@ -37,7 +38,9 @@ class MyApp extends StatelessWidget {
           routerDelegate: AppRouter.route.routerDelegate,
           routeInformationProvider: AppRouter.route.routeInformationProvider,
           builder: EasyLoading.init(),
+          
         ));
+        
       },
     );
   }
