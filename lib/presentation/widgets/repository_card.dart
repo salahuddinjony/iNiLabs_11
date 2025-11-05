@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
+import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/core/utils/date_utils.dart' as app_date_utils;
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 
@@ -45,6 +47,7 @@ class RepositoryCard extends StatelessWidget {
                   ),
                   if (repository.private)
                     Container(
+                      margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
@@ -61,6 +64,17 @@ class RepositoryCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                  // Quick action button
+                  IconButton(
+                    icon: const Icon(Icons.folder_open, size: 20),
+                    onPressed: () => context.pushNamed(
+                      RoutePath.repositoryBrowser,
+                      extra: repository,
+                    ),
+                    tooltip: 'Browse files',
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
                 ],
               ),
               

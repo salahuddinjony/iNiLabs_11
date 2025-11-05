@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
+import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/core/utils/date_utils.dart' as app_date_utils;
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/presentation/controllers/theme_controller.dart';
@@ -227,10 +228,24 @@ class RepositoryDetailsScreen extends StatelessWidget {
             
             const SizedBox(height: AppConstants.paddingLarge),
             
-            // Action Button
+            // Action Buttons
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton.icon(
+              child: FilledButton.icon(
+                onPressed: () => context.pushNamed(
+                  RoutePath.repositoryBrowser,
+                  extra: repository,
+                ),
+                icon: const Icon(Icons.folder_open),
+                label: const Text('Browse Files'),
+              ),
+            ),
+            
+            const SizedBox(height: AppConstants.paddingSmall),
+            
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
                 onPressed: () => _launchUrl(repository.htmlUrl),
                 icon: const Icon(Icons.open_in_browser),
                 label: const Text('View on GitHub'),

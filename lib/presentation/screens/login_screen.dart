@@ -2,15 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilab/core/constants/app_constants.dart';
 import 'package:inilab/presentation/controllers/login_controller.dart';
+import 'package:inilab/presentation/controllers/theme_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   
   final controller = Get.find<LoginController>();
+  final themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppConstants.appName),
+        actions: [
+          Obx(() => IconButton(
+            icon: Icon(
+              themeController.isDarkMode 
+                  ? Icons.light_mode 
+                  : Icons.dark_mode,
+            ),
+            onPressed: () => themeController.toggleTheme(),
+          )),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

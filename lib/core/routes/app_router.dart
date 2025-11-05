@@ -3,8 +3,11 @@ import 'package:inilab/core/enums/enums.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/helper/extention.dart';
+import 'package:inilab/presentation/controllers/repository_browser_controller.dart';
+import 'package:inilab/presentation/screens/file_viewer_screen.dart';
 import 'package:inilab/presentation/screens/home_screen.dart';
 import 'package:inilab/presentation/screens/login_screen.dart';
+import 'package:inilab/presentation/screens/repository_browser_screen.dart';
 import 'package:inilab/presentation/screens/repository_details_screen.dart';
 import 'package:inilab/presentation/screens/splash_screen.dart';
 import 'package:inilab/presentation/screens/user_list_screen.dart';
@@ -60,6 +63,28 @@ class AppRouter {
           return UserListScreen(
             username: data['username'] as String,
             type: data['type'] as UserListType,
+          );
+        },
+      ),
+      GoRoute(
+        path: RoutePath.repositoryBrowser.addBasePath,
+        name: RoutePath.repositoryBrowser,
+        builder: (context, state) {
+          // Repository data passed as extra
+          final repository = state.extra as repo_model.GithubRepository;
+          return RepositoryBrowserScreen(repository: repository);
+        },
+      ),
+      GoRoute(
+        path: RoutePath.fileViewer.addBasePath,
+        name: RoutePath.fileViewer,
+        builder: (context, state) {
+          // File viewer data passed as extra
+          final data = state.extra as Map<String, dynamic>;
+          return FileViewerScreen(
+            controller: data['controller'] as RepositoryBrowserController,
+            filePath: data['filePath'] as String,
+            fileName: data['fileName'] as String,
           );
         },
       ),

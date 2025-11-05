@@ -53,9 +53,12 @@ class UserListController extends GetxController {
           ? await repository.fetchFollowers(username, currentPage.value)
           : await repository.fetchFollowing(username, currentPage.value);
       
-      if (newUsers.isEmpty) {
+      if (newUsers.isEmpty || newUsers.length < 30) {
+        // No more users to load if empty or less than page size
         hasMore.value = false;
-      } else {
+      }
+      
+      if (newUsers.isNotEmpty) {
         users.addAll(newUsers);
         currentPage.value++;
       }

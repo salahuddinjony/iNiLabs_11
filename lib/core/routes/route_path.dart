@@ -7,5 +7,7 @@ class RoutePath {
   static const home = 'HomeScreen';
   static const repositoryDetails = 'RepositoryDetailsScreen';
   static const userList = 'UserListScreen';
+  static const repositoryBrowser = 'RepositoryBrowserScreen';
+  static const fileViewer = 'FileViewerScreen';
 
 }
