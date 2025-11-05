@@ -298,7 +298,7 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(height: AppConstants.paddingSmall),
                         const Text(AppConstants.aboutText),
                         const SizedBox(height: AppConstants.paddingMedium),
-                        const Text(
+                         Text(
                           AppConstants.copyrightText,
                           style: TextStyle(fontSize: 12),
                         ),
