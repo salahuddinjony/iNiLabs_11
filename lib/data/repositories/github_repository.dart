@@ -90,4 +90,22 @@ class GithubRepository {
       rethrow;
     }
   }
+  
+  /// Search users by query
+  Future<List<GithubUser>> searchUsers(String query) async {
+    try {
+      final response = await _apiService.get(
+        '/search/users',
+        queryParameters: {
+          'q': query,
+          'per_page': 30,
+        },
+      );
+      
+      final List<dynamic> data = response.data['items'];
+      return data.map((json) => GithubUser.fromJson(json)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -8,7 +8,6 @@ import 'package:inilab/core/constants/app_constants.dart';
 import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 import 'package:inilab/presentation/controllers/repository_browser_controller.dart';
-import 'package:inilab/presentation/controllers/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Repository Browser Screen - Browse files and folders
@@ -26,7 +25,6 @@ class RepositoryBrowserScreen extends StatelessWidget {
       RepositoryBrowserController(repository: repository),
       tag: repository.fullName,
     );
-    final themeController = Get.find<ThemeController>();
 
     return PopScope(
       canPop: false,
@@ -59,16 +57,6 @@ class RepositoryBrowserScreen extends StatelessWidget {
               onPressed: () => _copyCloneUrl(context, controller),
               tooltip: 'Copy Clone URL',
             ),
-            // Theme toggle
-            Obx(() => IconButton(
-              icon: Icon(
-                themeController.isDarkMode
-                    ? Icons.light_mode
-                    : Icons.dark_mode,
-              ),
-              onPressed: () => themeController.toggleTheme(),
-              tooltip: 'Toggle Theme',
-            )),
           ],
         ),
         body: Column(
@@ -304,6 +292,19 @@ class RepositoryBrowserScreen extends StatelessWidget {
 
   void _showDownloadDialog(BuildContext context, RepositoryBrowserController controller) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final selectedBranch = (repository.defaultBranch ?? 'main').obs;
+    final branches = <String>[].obs;
+    final isLoadingBranches = true.obs;
+
+    // Fetch available branches
+    controller.fetchBranches().then((fetchedBranches) {
+      branches.value = fetchedBranches;
+      isLoadingBranches.value = false;
+      // Set selected branch if current default is in the list
+      if (!branches.contains(selectedBranch.value) && branches.isNotEmpty) {
+        selectedBranch.value = branches.first;
+      }
+    });
     
     showDialog(
       context: context,
@@ -371,14 +372,14 @@ class RepositoryBrowserScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Expanded(
-                        child: Text(
-                          '${repository.name}.zip',
+                        child: Obx(() => Text(
+                          '${repository.name}-${selectedBranch.value}.zip',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                             color: isDark ? const Color(0xFFC9D1D9) : const Color(0xFF24292F),
                           ),
-                        ),
+                        )),
                       ),
                     ],
                   ),
@@ -388,12 +389,79 @@ class RepositoryBrowserScreen extends StatelessWidget {
                     height: 1,
                   ),
                   SizedBox(height: 8.h),
-                  _buildInfoRow(
-                    context,
-                    Icons.source_outlined,
-                    'Branch',
-                    repository.defaultBranch ?? 'main',
-                    isDark,
+                  
+                  // Branch selector
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.source_outlined,
+                        size: 14.sp,
+                        color: isDark ? const Color(0xFF8B949E) : const Color(0xFF57606A),
+                      ),
+                      SizedBox(width: 6.w),
+                      Text(
+                        'Branch: ',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: isDark ? const Color(0xFF8B949E) : const Color(0xFF57606A),
+                        ),
+                      ),
+                      Expanded(
+                        child: Obx(() {
+                          if (isLoadingBranches.value) {
+                            return Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                height: 15.h,
+                                width: 15.w,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: isDark ? const Color(0xFF58A6FF) : const Color(0xFF0969DA),
+                                ),
+                              ),
+                            );
+                          }
+                          
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF21262D) : Colors.white,
+                              borderRadius: BorderRadius.circular(6.r),
+                              border: Border.all(
+                                color: isDark ? const Color(0xFF30363D) : const Color(0xFFD0D7DE),
+                              ),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: selectedBranch.value,
+                                isDense: true,
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: isDark ? const Color(0xFF8B949E) : const Color(0xFF57606A),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: isDark ? const Color(0xFFC9D1D9) : const Color(0xFF24292F),
+                                ),
+                                dropdownColor: isDark ? const Color(0xFF21262D) : Colors.white,
+                                items: branches.map((String branch) {
+                                  return DropdownMenuItem<String>(
+                                    value: branch,
+                                    child: Text(branch),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  if (newValue != null) {
+                                    selectedBranch.value = newValue;
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 6.h),
                   _buildInfoRow(
@@ -437,10 +505,10 @@ class RepositoryBrowserScreen extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8.w),
-          ElevatedButton.icon(
-            onPressed: () {
+          Obx(() => ElevatedButton.icon(
+            onPressed: isLoadingBranches.value ? null : () {
               context.pop();
-              _downloadRepository(controller);
+              _downloadRepository(controller, selectedBranch.value);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: isDark ? const Color(0xFF238636) : const Color(0xFF2DA44E),
@@ -456,7 +524,7 @@ class RepositoryBrowserScreen extends StatelessWidget {
               'Download ZIP',
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
             ),
-          ),
+          )),
         ],
       ),
     );
@@ -492,9 +560,9 @@ class RepositoryBrowserScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _downloadRepository(RepositoryBrowserController controller) async {
+  Future<void> _downloadRepository(RepositoryBrowserController controller, String branch) async {
     try {
-      final url = controller.getDownloadUrl();
+      final url = controller.getDownloadUrl(branch: branch);
       final uri = Uri.parse(url);
       
       // Use external application mode to open the download URL in browser

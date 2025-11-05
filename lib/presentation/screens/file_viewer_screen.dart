@@ -62,8 +62,6 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeController = Get.find<ThemeController>();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -89,13 +87,6 @@ class _FileViewerScreenState extends State<FileViewerScreen> {
             onPressed: _openOnGitHub,
             tooltip: 'Open on GitHub',
           ),
-          // Theme toggle
-          Obx(() => IconButton(
-            icon: Icon(
-              themeController.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-            ),
-            onPressed: () => themeController.toggleTheme(),
-          )),
         ],
       ),
       body: Obx(() {

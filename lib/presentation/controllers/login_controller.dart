@@ -35,12 +35,12 @@ class LoginController extends GetxController {
     try {
       await _repository.fetchUser(username.trim());
       _isLoading.value = false;
-      // Navigate to home with username
+      // Navigate to main screen and save username
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', username.trim());
 
       if (context.mounted) {
-        context.goNamed(RoutePath.home, extra: username.trim());
+        context.goNamed(RoutePath.main);
         usernameController.clear();
       }
       return true;

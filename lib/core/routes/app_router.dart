@@ -7,6 +7,7 @@ import 'package:inilab/presentation/controllers/repository_browser_controller.da
 import 'package:inilab/presentation/screens/file_viewer_screen.dart';
 import 'package:inilab/presentation/screens/home_screen.dart';
 import 'package:inilab/presentation/screens/login_screen.dart';
+import 'package:inilab/presentation/screens/main_screen.dart';
 import 'package:inilab/presentation/screens/repository_browser_screen.dart';
 import 'package:inilab/presentation/screens/repository_details_screen.dart';
 import 'package:inilab/presentation/screens/splash_screen.dart';
@@ -25,6 +26,11 @@ class AppRouter {
         path: RoutePath.login.addBasePath,
         name: RoutePath.login,
         builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+        path: RoutePath.main.addBasePath,
+        name:  RoutePath.main,
+        builder: (context, state) => const MainScreen(),
       ),
       GoRoute(
         path: RoutePath.home.addBasePath,
