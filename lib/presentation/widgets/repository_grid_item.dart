@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inilab/core/constants/app_constants.dart';
+import 'package:inilab/core/routes/route_path.dart';
 import 'package:inilab/core/utils/date_utils.dart' as app_date_utils;
 import 'package:inilab/data/models/github_repository.dart' as repo_model;
 
@@ -25,7 +27,7 @@ class RepositoryGridItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Repository name
+              // Repository name and action
               Row(
                 children: [
                   Expanded(
@@ -38,6 +40,16 @@ class RepositoryGridItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.folder_open, size: 18),
+                    onPressed: () => context.pushNamed(
+                      RoutePath.repositoryBrowser,
+                      extra: repository,
+                    ),
+                    tooltip: 'Browse files',
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
                 ],
               ),
@@ -56,17 +68,18 @@ class RepositoryGridItem extends StatelessWidget {
               
               const SizedBox(height: AppConstants.paddingSmall),
               
-              // Language
-              if (repository.language != null)
-                Row(
-                  children: [
+              // Language and Stars in one row
+              Row(
+                children: [
+                  // Language
+                  if (repository.language != null) ...[
                     Icon(
                       Icons.circle,
                       size: 12,
                       color: _getLanguageColor(repository.language!),
                     ),
                     const SizedBox(width: 4),
-                    Expanded(
+                    Flexible(
                       child: Text(
                         repository.language!,
                         style: Theme.of(context).textTheme.bodySmall,
@@ -74,14 +87,9 @@ class RepositoryGridItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(width: 12),
                   ],
-                ),
-              
-              const SizedBox(height: AppConstants.paddingSmall),
-              
-              // Stars
-              Row(
-                children: [
+                  // Stars
                   const Icon(Icons.star_border, size: 16),
                   const SizedBox(width: 4),
                   Text(

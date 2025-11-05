@@ -74,9 +74,9 @@ class UserListScreen extends StatelessWidget {
         return ListView.builder(
           controller: controller.scrollController,
           padding: const EdgeInsets.all(AppConstants.paddingMedium),
-          itemCount: controller.users.length + (controller.hasMore.value ? 1 : 0),
+          itemCount: controller.users.length + (controller.hasMore.value && controller.isLoading.value ? 1 : 0),
           itemBuilder: (context, index) {
-            // Show loading indicator at the bottom
+            // Show loading indicator at the bottom only when loading more
             if (index == controller.users.length) {
               return const Padding(
                 padding: EdgeInsets.all(AppConstants.paddingMedium),
