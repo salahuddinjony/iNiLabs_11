@@ -23,9 +23,9 @@ class AboutSection extends StatelessWidget {
             const SizedBox(height: AppConstants.paddingSmall),
             const Text(AppConstants.aboutText),
             const SizedBox(height: AppConstants.paddingMedium),
-            const Text(
-              '© 2024 iNiLabs. All rights reserved.',
-              style: TextStyle(fontSize: 12),
+            Text(
+              AppConstants.copyrightText,
+              style: const TextStyle(fontSize: 12),
             ),
           ],
         ),

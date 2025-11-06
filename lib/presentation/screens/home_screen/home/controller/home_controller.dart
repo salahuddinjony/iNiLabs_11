@@ -22,6 +22,7 @@ class HomeController extends GetxController {
   final _viewType =ViewType.list.obs;
   final _sortType = SortType.updated.obs;
   final _searchQuery = ''.obs;
+  final _hasLoadedOnce = false.obs;
   
   // Getters
   bool get isLoading => _isLoading.value;
@@ -32,6 +33,7 @@ class HomeController extends GetxController {
   ViewType get viewType => _viewType.value;
   SortType get sortType => _sortType.value;
   String get searchQuery => _searchQuery.value;
+  bool get hasLoadedOnce => _hasLoadedOnce.value;
   
   String? _username;
   
@@ -78,9 +80,11 @@ class HomeController extends GetxController {
       final repos = await _repository.fetchUserRepositories(username);
       _repositories.value = repos;
       _applyFilters();
+      _hasLoadedOnce.value = true;
       _isLoadingRepos.value = false;
     } catch (e) {
       _isLoadingRepos.value = false;
+      _hasLoadedOnce.value = true;
       _errorMessage.value = e.toString();
       EasyLoading.showError(e.toString());
     }

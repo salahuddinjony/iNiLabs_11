@@ -5,10 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BottomSheetHandle extends StatelessWidget {
   final bool isDark;
 
-  const BottomSheetHandle({
-    super.key,
-    required this.isDark,
-  });
+  const BottomSheetHandle({super.key, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +14,7 @@ class BottomSheetHandle extends StatelessWidget {
       width: 36.w,
       height: 4.h,
       decoration: BoxDecoration(
-        color: isDark
-            ? const Color(0xFF30363D)
-            : const Color(0xFFD0D7DE),
+        color: isDark ? const Color(0xFF30363D) : const Color(0xFFD0D7DE),
         borderRadius: BorderRadius.circular(2.r),
       ),
     );

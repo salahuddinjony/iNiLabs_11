@@ -32,10 +32,7 @@ class CopyOptionTile extends StatelessWidget {
         onBeforeCopy?.call();
         if (context.mounted) {
           Navigator.pop(context);
-          GitHubSnackBar.show(
-            parentContext,
-            message: 'Copied to clipboard',
-          );
+          GitHubSnackBar.show(parentContext, message: 'Copied to clipboard');
         }
       },
       child: Container(
@@ -44,9 +41,7 @@ class CopyOptionTile extends StatelessWidget {
           children: [
             _buildIconContainer(),
             SizedBox(width: 12.w),
-            Expanded(
-              child: _buildTextContent(),
-            ),
+            Expanded(child: _buildTextContent()),
             Icon(
               Icons.content_copy,
               size: 16.sp,
@@ -62,22 +57,16 @@ class CopyOptionTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: isDark
-            ? const Color(0xFF0D1117)
-            : const Color(0xFFF6F8FA),
+        color: isDark ? const Color(0xFF0D1117) : const Color(0xFFF6F8FA),
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
-          color: isDark
-              ? const Color(0xFF30363D)
-              : const Color(0xFFD0D7DE),
+          color: isDark ? const Color(0xFF30363D) : const Color(0xFFD0D7DE),
         ),
       ),
       child: Icon(
         icon,
         size: 18.sp,
-        color: isDark
-            ? const Color(0xFF8B949E)
-            : const Color(0xFF57606A),
+        color: isDark ? const Color(0xFF8B949E) : const Color(0xFF57606A),
       ),
     );
   }
@@ -91,9 +80,7 @@ class CopyOptionTile extends StatelessWidget {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
-            color: isDark
-                ? const Color(0xFFC9D1D9)
-                : const Color(0xFF24292F),
+            color: isDark ? const Color(0xFFC9D1D9) : const Color(0xFF24292F),
           ),
         ),
         SizedBox(height: 4.h),
@@ -101,9 +88,7 @@ class CopyOptionTile extends StatelessWidget {
           subtitle,
           style: TextStyle(
             fontSize: 12.sp,
-            color: isDark
-                ? const Color(0xFF8B949E)
-                : const Color(0xFF57606A),
+            color: isDark ? const Color(0xFF8B949E) : const Color(0xFF57606A),
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
