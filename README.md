@@ -2,6 +2,109 @@
 
 A feature-rich GitHub repository viewer built with Flutter, featuring an authentic GitHub design, comprehensive user profiles, and advanced navigation capabilities.
 
+## 📸 Screenshots
+
+<div align="center">
+
+### Light Theme
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/splash page.png" width="200" alt="Splash Screen"/><br/>
+      <sub><b>Splash Screen</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/login page.png" width="200" alt="Login Page"/><br/>
+      <sub><b>Login Page</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/light home page.png" width="200" alt="Light Home Page"/><br/>
+      <sub><b>Home Page (Light)</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/contributions chart.png" width="200" alt="Contributions Chart"/><br/>
+      <sub><b>Contributions Chart</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Dark Theme
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/Dark home page.png" width="200" alt="Dark Home Page"/><br/>
+      <sub><b>Home Page (Dark)</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/dark contributions .png" width="200" alt="Dark Contributions"/><br/>
+      <sub><b>Contributions (Dark)</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/dark repo list.png" width="200" alt="Dark Repo List"/><br/>
+      <sub><b>Repository List (Dark)</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/repo list view.png" width="200" alt="Repo List View"/><br/>
+      <sub><b>Grid View</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Profile & User Features
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/profile .png" width="200" alt="Profile"/><br/>
+      <sub><b>User Profile</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/profile logout .png" width="200" alt="Profile Logout"/><br/>
+      <sub><b>Profile Menu</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/search user list.png" width="200" alt="Search User List"/><br/>
+      <sub><b>User List</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/repo details.png" width="200" alt="Repo Details"/><br/>
+      <sub><b>Repository Details</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Repository Features
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/relo file list.png" width="200" alt="File List"/><br/>
+      <sub><b>File Browser</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/code view.png" width="200" alt="Code View"/><br/>
+      <sub><b>Code Viewer</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/copy code.png" width="200" alt="Copy Code"/><br/>
+      <sub><b>Copy Code</b></sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/repo download.png" width="200" alt="Repo Download"/><br/>
+      <sub><b>Download Options</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/repo finder/copy repo link.png" width="200" alt="Copy Repo Link"/><br/>
+      <sub><b>Clone Repository</b></sub>
+    </td>
+    <td align="center" colspan="3"></td>
+  </tr>
+</table>
+
+</div>
+
+---
+
 ## ✨ Features
 
 ### 🔐 Authentication & User Management
