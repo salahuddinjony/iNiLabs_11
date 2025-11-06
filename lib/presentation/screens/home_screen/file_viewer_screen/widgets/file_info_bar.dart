@@ -24,15 +24,11 @@ class FileInfoBar extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(AppConstants.paddingMedium),
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .colorScheme
-            .surfaceContainerHighest
-            .withOpacity(0.3),
+        color: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest.withOpacity(0.3),
         border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1,
-          ),
+          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
         ),
       ),
       child: Row(
@@ -55,10 +51,7 @@ class FileInfoBar extends StatelessWidget {
             icon: const Icon(Icons.copy_all, size: 16),
             label: const Text('Copy All'),
             style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12.w,
-                vertical: 8.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             ),
           ),
         ],

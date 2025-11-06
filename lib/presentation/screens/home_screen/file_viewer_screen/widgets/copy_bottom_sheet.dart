@@ -61,7 +61,8 @@ class CopyBottomSheet extends StatelessWidget {
           CopyOptionTile(
             parentContext: parentContext,
             title: 'Copy All Code',
-            subtitle: '${lines.length} lines • ${fileController.fileContent.value!.size.toFileSize()}',
+            subtitle:
+                '${lines.length} lines • ${fileController.fileContent.value!.size.toFileSize()}',
             icon: Icons.copy_all,
             contentToCopy: decodedContent,
             isDark: isDark,

@@ -15,13 +15,22 @@ class RepositoryBrowserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Get.isRegistered<RepositoryBrowserController>(tag: repository.fullName)
+    final bool isAlreadyRegistered =
+        Get.isRegistered<RepositoryBrowserController>(tag: repository.fullName);
+    
+    final controller = isAlreadyRegistered
         ? Get.find<RepositoryBrowserController>(tag: repository.fullName)
         : Get.put(
             RepositoryBrowserController(repository: repository),
             tag: repository.fullName,
           );
+
+    // If controller was already registered and has an error, retry loading
+    if (isAlreadyRegistered && controller.error.value != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.fetchContents(controller.currentPath.value);
+      });
+    }
 
     return PopScope(
       canPop: false,
@@ -44,7 +53,10 @@ class RepositoryBrowserScreen extends StatelessWidget {
                 }
 
                 if (controller.error.value != null) {
-                  return ErrorStateWidget(error: controller.error.value!);
+                  return ErrorStateWidget(
+                    error: controller.error.value!,
+                    onRetry: () => controller.fetchContents(controller.currentPath.value),
+                  );
                 }
 
                 if (controller.contents.isEmpty) {

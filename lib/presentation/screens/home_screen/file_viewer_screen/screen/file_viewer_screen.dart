@@ -25,8 +25,10 @@ class FileViewerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize controller with unique tag based on file path
-    final fileController =
-        (Get.isRegistered<FileViewerController>(tag: filePath))
+    final bool isAlreadyRegistered =
+        Get.isRegistered<FileViewerController>(tag: filePath);
+    
+    final fileController = isAlreadyRegistered
         ? Get.find<FileViewerController>(tag: filePath)
         : Get.put(
             FileViewerController(
@@ -35,6 +37,13 @@ class FileViewerScreen extends StatelessWidget {
             ),
             tag: filePath,
           );
+
+    // If controller was already registered and has an error, retry loading
+    if (isAlreadyRegistered && fileController.error.value != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        fileController.loadFile();
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(

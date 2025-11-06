@@ -23,7 +23,8 @@ class Repositories extends StatelessWidget {
         );
       }
 
-      if (controller.repositories.isEmpty) {
+      // Only show error if we've tried to load at least once
+      if (controller.repositories.isEmpty && controller.hasLoadedOnce) {
         return SliverFillRemaining(
           child: custom_error.ErrorWidget(
             message: controller.searchQuery.isNotEmpty
@@ -32,6 +33,11 @@ class Repositories extends StatelessWidget {
             onRetry: () => controller.refresh(),
           ),
         );
+      }
+
+      // If repositories are empty but haven't loaded yet, show nothing (avoid flash)
+      if (controller.repositories.isEmpty) {
+        return const SliverToBoxAdapter(child: SizedBox.shrink());
       }
 
       if (controller.viewType == ViewType.list) {

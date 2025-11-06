@@ -32,10 +32,12 @@ class EmptyDirectoryWidget extends StatelessWidget {
 /// Error state widget for repository browser
 class ErrorStateWidget extends StatelessWidget {
   final String error;
+  final VoidCallback? onRetry;
 
   const ErrorStateWidget({
     super.key,
     required this.error,
+    this.onRetry,
   });
 
   @override
@@ -61,8 +63,18 @@ class ErrorStateWidget extends StatelessWidget {
               error,
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
+          if (onRetry != null) ...[
+            SizedBox(height: 16.h),
+            ElevatedButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+            ),
+          ],
         ],
       ),
     );
