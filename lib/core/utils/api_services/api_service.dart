@@ -127,6 +127,9 @@ class ApiService {
         break;
       case DioExceptionType.badResponse:
         switch (error.response?.statusCode) {
+          case 401:
+            errorMessage = 'Invalid GitHub token. Please update your token in settings.';
+            break;
           case 404:
             errorMessage = 'User not found. Please check the username.';
             break;
